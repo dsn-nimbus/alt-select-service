@@ -2,12 +2,12 @@
   "name": "alt-select-service",
   "version": "0.0.1",
   "main": "dist/alt-select-service.min.js",
-  "scripts":
-  {
+  "scripts": {
     "test": "gulp coverage"
   },
   "dependencies": {},
   "devDependencies": {
+    "babel": "^5.8.34",
     "gulp": "^3.8.11",
     "gulp-concat": "^2.5.2",
     "gulp-coveralls": "^0.1.4",
@@ -25,15 +25,13 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-safari-launcher": "^0.1.1"
   },
-  "repository":
-  {
+  "repository": {
     "type": "git",
     "url": "https://github.com/dsn-nimbus/alt-select-service.git"
   },
   "author": "dsn-nimbus <ericdantas0@gmail.com>",
   "license": "MIT",
-  "bugs":
-  {
+  "bugs": {
     "url": "https://github.com/dsn-nimbus/alt-select-service/issues"
   },
   "homepage": "https://github.com/dsn-nimbus/alt-select-service"
