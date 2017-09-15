@@ -4,7 +4,8 @@ import coveralls from 'gulp-coveralls';
 import cssmin from 'gulp-cssmin';
 import concat from 'gulp-concat';
 import rename from 'gulp-rename';
-import {server as karma} from 'karma';
+import {Server as Karma} from 'karma';
+import babel from 'gulp-babel';
 
 const _coverage = 'coverage/**/lcov.info';
 const _scripts = 'src/**/*.js';
@@ -26,6 +27,12 @@ gulp.task('build', ['unit_test', 'build-css'], function () {
   return gulp.src(_scripts)
     .pipe(concat(_script.toLowerCase()))
     .pipe(gulp.dest(_dist))
+    .pipe(babel({
+             presets: [
+               "es2015",
+               "babili"
+             ]
+           }))
     .pipe(uglify())
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(_dist));
@@ -35,10 +42,10 @@ gulp.task('unit_test', function (done) {
   let _opts = {
     configFile: __dirname + '/karma.conf.js',
     singleRun: true,
-    browsers: ['PhantomJS']
+    browsers: ['Chrome']
   };
 
-  return karma.start(_opts, done);
+  return new Karma(_opts, done).start();
 })
 
 gulp.task('coverage', ['unit_test'], function () {
