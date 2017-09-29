@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Service: AltSelectService', function () {
-  var AltSelectService, _timeoutMock;
+  var AltSelectService, _timeoutMock, _eventoAbreSelect;
   var TEMPO = 99;
 
   beforeEach(module('alt.select-service'));
@@ -46,12 +46,12 @@ describe('Service: AltSelectService', function () {
     })
   })
 
-  describe('inicializarComOpcaoDeNaoEncontrado', function(){
+  describe('inicializarComOpcaoCriarNovo', function(){
     it('Deve trazer mensagem de erro quando o segundo parâmetro da função não é um objeto.', function(){
       var _id = 1;
 
       expect(function(){
-        AltSelectService.inicializarComOpcaoDeNaoEncontrado(_id, undefined)
+        AltSelectService.inicializarComOpcaoCriarNovo(_id, undefined)
       }).toThrow(TypeError("O segundo parâmetro deve ser um objeto."));
     })
 
@@ -61,7 +61,7 @@ describe('Service: AltSelectService', function () {
                                  escopo: "escopo"};
 
       expect(function(){
-        AltSelectService.inicializarComOpcaoDeNaoEncontrado(_id, _optCriacaoEntidade)
+        AltSelectService.inicializarComOpcaoCriarNovo(_id, _optCriacaoEntidade)
       }).toThrow(TypeError("A primeira propriedade do objeto deve ser strMetodo."));
     })
 
@@ -71,7 +71,7 @@ describe('Service: AltSelectService', function () {
                                  nEhEscopo: "escopo"};
 
       expect(function(){
-        AltSelectService.inicializarComOpcaoDeNaoEncontrado(_id, _optCriacaoEntidade)
+        AltSelectService.inicializarComOpcaoCriarNovo(_id, _optCriacaoEntidade)
       }).toThrow(TypeError("A segunda propriedade do objeto deve ser escopo."));
     })
 
@@ -91,7 +91,7 @@ describe('Service: AltSelectService', function () {
 
       spyOn($.fn, 'select2').and.callFake(angular.noop);
 
-      AltSelectService.inicializarComOpcaoDeNaoEncontrado(_id, _optCriacaoEntidade, _optSelect2);
+      AltSelectService.inicializarComOpcaoCriarNovo(_id, _optCriacaoEntidade, _optSelect2);
       _timeoutMock.flush(TEMPO);
 
       expect($('a').select2).toHaveBeenCalledWith(jasmine.objectContaining(_esperado));
@@ -112,10 +112,10 @@ describe('Service: AltSelectService', function () {
 
       spyOn($.fn, 'select2').and.callFake(angular.noop);
 
-      AltSelectService.inicializarComOpcaoDeNaoEncontrado(_id, _optCriacaoEntidade, _optSelect2);
+      AltSelectService.inicializarComOpcaoCriarNovo(_id, _optCriacaoEntidade, _optSelect2);
       _timeoutMock.flush(TEMPO);
 
-      expect($('a').select2).toHaveBeenCalledWith(_esperado);
+      expect($('a').select2).toHaveBeenCalledWith(jasmine.objectContaining(_esperado));
     })
   });
 
