@@ -33,8 +33,8 @@
           throw new TypeError("A segunda propriedade do objeto deve ser escopo.");
         }
 
-        var idSelectMsgBase = "alt-select2-id-" + Date.now();
-        var idSelectOpcaoCriarNovo = "alt-select2-id-" + Date.now();
+        var idSelectMsgBase = "alt-select2-id-base-" + Date.now();
+        var idSelectOpcaoCriarNovo = "alt-select2-id-criar-novo-" + Date.now();
         var idInputSelectPesquisa;
         var _criarNovoAppendado = false;
         var _naoTemResultado = false;
@@ -83,13 +83,15 @@
 
           $(id).on("select2:open", function(){
             $timeout(function() {
-              _appendCriarNovo(idSelectOpcaoCriarNovo, id, _opcaoCriarNovo, optCriacaoEntidade);
+              _appendCriarNovo(idSelectOpcaoCriarNovo, id, idInputSelectPesquisa, _opcaoCriarNovo, optCriacaoEntidade);
             }.bind(this), TIMEOUT);
 
             if (_idsInputPesquisaCriados === false) {
+              let i = 1;
               $('.select2-search__field').each(function(){
-                idInputSelectPesquisa = parseInt(Date.now() + ((Math.random() * 1000) + 1));
+                idInputSelectPesquisa = "alt-select2-id-campo-pesquisa-" + parseInt(Date.now() + i);
                 $(this).attr('id', idInputSelectPesquisa);
+                i++;
               })
 
               $("#" + idInputSelectPesquisa).on('input', function(){
@@ -98,7 +100,7 @@
                   _criarNovoAppendado = false;
                   return _naoTemResultado = false;
                 } else {
-                  _appendCriarNovo(idSelectOpcaoCriarNovo, id, _opcaoCriarNovo, optCriacaoEntidade);
+                  _appendCriarNovo(idSelectOpcaoCriarNovo, id, idInputSelectPesquisa, _opcaoCriarNovo, optCriacaoEntidade);
                   _criarNovoAppendado = true;
                 }
               }.bind(this))
@@ -112,11 +114,10 @@
             $('#'+idSelectOpcaoCriarNovo).remove();
           })
 
-          function _appendCriarNovo (idSelectPesquisa, idSelect2, _opcaoCriarNovo, optCriacaoEntidade) {
+          function _appendCriarNovo (idSelectPesquisa, idSelect2, _idInputSelectPesquisa, _opcaoCriarNovo, optCriacaoEntidade) {
             if (_liberadoParaCriacao()) {
-              var _id = idSelect2.replace('#', "-");
               $timeout(function(){
-                $(".select2-search").append($compile(angular.element(_opcaoCriarNovo))(optCriacaoEntidade.escopo));
+                $("#" + _idInputSelectPesquisa).parent().append($compile(angular.element(_opcaoCriarNovo))(optCriacaoEntidade.escopo));
                 $("#" + idSelectPesquisa).on("click", function(){
                   $(idSelect2).select2('close');
                 })
