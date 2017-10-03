@@ -37,6 +37,7 @@
         var idSelectOpcaoCriarNovo = "alt-select2-id-" + Date.now();
         var idInputSelectPesquisa;
         var _criarNovoAppendado = false;
+        var _naoTemResultado = false;
 
         var _msgBase = `
         <div>
@@ -50,8 +51,8 @@
 
         var _opcaoCriarNovo = `
           <div>
-            <ul class='select2-results__option alt-cor-principal select2-cor-opcao-criar-novo' ng-click="${optCriacaoEntidade.strMetodo}" id="${idSelectOpcaoCriarNovo}">
-              <i class="fa fa-plus-circle alt-hand" aria-hidden="true"></i>
+            <ul style="padding-left: 10px;" class='alt-espacamento-top alt-cor-principal select2-cor-opcao-criar-novo alt-hand' ng-click="${optCriacaoEntidade.strMetodo}" id="${idSelectOpcaoCriarNovo}">
+              <i class="fa fa-plus-circle" aria-hidden="true"></i>
               <a class="select2-cor-opcao-criar-novo"><strong class='alt-select-botao-abrir-modal alt-hand'>Criar Novo</strong></a>
             </ul>
           </div>`
@@ -59,6 +60,7 @@
         var _optExtendido = ng.extend(optSelect2, {
           language: {
             noResults: function(s) {
+              _naoTemResultado = true;
               var el = $compile(angular.element(_msgBase))(optCriacaoEntidade.escopo);
               $(el).find("#" + idSelectMsgBase).on("click", function(){
                 $(id).select2('close');
@@ -81,7 +83,7 @@
 
           $(id).on("select2:open", function(){
             $timeout(function() {
-              this._appendCriarNovo(idSelectOpcaoCriarNovo, id, _opcaoCriarNovo, optCriacaoEntidade);
+              _appendCriarNovo(idSelectOpcaoCriarNovo, id, _opcaoCriarNovo, optCriacaoEntidade);
             }.bind(this), TIMEOUT);
 
             if (_idsInputPesquisaCriados === false) {
@@ -89,27 +91,32 @@
                 idInputSelectPesquisa = parseInt(Date.now() + ((Math.random() * 1000) + 1));
                 $(this).attr('id', idInputSelectPesquisa);
               })
+
+              $("#" + idInputSelectPesquisa).on('input', function(){
+                if (!!_naoTemResultado) {
+                  $('.select2-cor-opcao-criar-novo').remove();
+                  _criarNovoAppendado = false;
+                  return _naoTemResultado = false;
+                } else {
+                  _appendCriarNovo(idSelectOpcaoCriarNovo, id, _opcaoCriarNovo, optCriacaoEntidade);
+                  _criarNovoAppendado = true;
+                }
+              }.bind(this))
+
               _idsInputPesquisaCriados = true;
             }
-
-            $("#" + idInputSelectPesquisa).on('input', function(){
-              if ($("#" + idInputSelectPesquisa).val() === "" || $("#" + idInputSelectPesquisa).val() === undefined){
-                this._appendCriarNovo(idSelectOpcaoCriarNovo, id, _opcaoCriarNovo, optCriacaoEntidade);
-              } else if (!!$("#" + idInputSelectPesquisa).val() && $("#" + idInputSelectPesquisa).val() !== "") {
-                _criarNovoAppendado = false;
-              }
-            }.bind(this))
           }.bind(this))
 
-          $(id).on("select2:closing", function(){
-            _criarNovoAppendado = false;
+
+          $(id).on("select2:close", function(){
+            $('#'+idSelectOpcaoCriarNovo).remove();
           })
 
           function _appendCriarNovo (idSelectPesquisa, idSelect2, _opcaoCriarNovo, optCriacaoEntidade) {
-            if (this._liberadoParaCriacao()) {
+            if (_liberadoParaCriacao()) {
               var _id = idSelect2.replace('#', "-");
               $timeout(function(){
-                $("#select2" + _id + "-results").prepend($compile(angular.element(_opcaoCriarNovo))(optCriacaoEntidade.escopo));
+                $(".select2-search").append($compile(angular.element(_opcaoCriarNovo))(optCriacaoEntidade.escopo));
                 $("#" + idSelectPesquisa).on("click", function(){
                   $(idSelect2).select2('close');
                 })
