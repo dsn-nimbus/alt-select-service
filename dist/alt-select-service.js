@@ -15,7 +15,7 @@
         }, TIMEOUT);
       };
 
-      this.inicializarComOpcaoCriarNovo = function(id, optCriacaoEntidade, optSelect2) {
+      this.inicializarComOpcaoCriarNovo = function(idSelect, optCriacaoEntidade, optSelect2) {
         /*
             strMetodo: string,
             escopo: $scope
@@ -33,11 +33,12 @@
           throw new TypeError("A segunda propriedade do objeto deve ser escopo.");
         }
 
-        var idSelectMsgBase = "alt-select2-id-base-" + Date.now();
-        var idSelectOpcaoCriarNovo = "alt-select2-id-criar-novo-" + Date.now();
+        var idSelectMsgBase = "alt-select2-id-msg-base-" + Date.now();
+        var idSelectOpcaoCriarNovo;
         var idInputSelectPesquisa;
         var _criarNovoAppendado = false;
-        var _naoTemResultado = false;
+        var _naoTemResultadoSelect = false;
+        var _idsInputGerados = false;
 
         var _msgBase = `
         <div>
@@ -60,10 +61,10 @@
         var _optExtendido = ng.extend(optSelect2, {
           language: {
             noResults: function(s) {
-              _naoTemResultado = true;
+              _naoTemResultadoSelect = true;
               var el = $compile(angular.element(_msgBase))(optCriacaoEntidade.escopo);
               $(el).find("#" + idSelectMsgBase).on("click", function(){
-                $(id).select2('close');
+                $(idSelect).select2('close');
               })
 
               return el;
@@ -73,20 +74,18 @@
         });
 
           $timeout(function() {
-            $(id).select2(_optExtendido);
+            $(idSelect).select2(_optExtendido);
           }, TIMEOUT);
 
-          $(id).off("select2:open");
+          $(idSelect).off("select2:open");
           $("#" + idInputSelectPesquisa).off("input");
 
-          var _idsInputPesquisaCriados = false;
-
-          $(id).on("select2:open", function(){
+          $(idSelect).on("select2:open", function(){
             $timeout(function() {
-              _appendCriarNovo(idSelectOpcaoCriarNovo, id, idInputSelectPesquisa, _opcaoCriarNovo, optCriacaoEntidade);
+              _appendCriarNovo(idSelectOpcaoCriarNovo, idSelect, idInputSelectPesquisa, _opcaoCriarNovo, optCriacaoEntidade);
             }.bind(this), TIMEOUT);
 
-            if (_idsInputPesquisaCriados === false) {
+            if (_idsInputGerados === false) {
               let i = 1;
               $('.select2-search__field').each(function(){
                 idInputSelectPesquisa = "alt-select2-id-campo-pesquisa-" + parseInt(Date.now() + i);
@@ -95,28 +94,28 @@
               })
 
               $("#" + idInputSelectPesquisa).on('input', function(){
-                if (!!_naoTemResultado) {
+                if (!!_naoTemResultadoSelect) {
                   $('.select2-cor-opcao-criar-novo').remove();
                   _criarNovoAppendado = false;
-                  return _naoTemResultado = false;
+                  return _naoTemResultadoSelect = false;
                 } else {
-                  _appendCriarNovo(idSelectOpcaoCriarNovo, id, idInputSelectPesquisa, _opcaoCriarNovo, optCriacaoEntidade);
+                  _appendCriarNovo(idSelectOpcaoCriarNovo, idSelect, idInputSelectPesquisa, _opcaoCriarNovo, optCriacaoEntidade);
                   _criarNovoAppendado = true;
                 }
               }.bind(this))
 
-              _idsInputPesquisaCriados = true;
+              $(idSelect).on("select2:close", function(){
+                $('#' + idSelectOpcaoCriarNovo).remove();
+              })
+
+              _idsInputGerados = true;
             }
           }.bind(this))
-
-
-          $(id).on("select2:close", function(){
-            $('#'+idSelectOpcaoCriarNovo).remove();
-          })
 
           function _appendCriarNovo (idSelectPesquisa, idSelect2, _idInputSelectPesquisa, _opcaoCriarNovo, optCriacaoEntidade) {
             if (_liberadoParaCriacao()) {
               $timeout(function(){
+                idSelectOpcaoCriarNovo = "alt-select2-id-criar-novo-" + Date.now();
                 $("#" + _idInputSelectPesquisa).parent().append($compile(angular.element(_opcaoCriarNovo))(optCriacaoEntidade.escopo));
                 $("#" + idSelectPesquisa).on("click", function(){
                   $(idSelect2).select2('close');
