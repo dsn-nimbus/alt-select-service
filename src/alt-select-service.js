@@ -33,7 +33,7 @@
           throw new TypeError("A segunda propriedade do objeto deve ser escopo.");
         }
 
-        var idSelectMsgBase = "alt-select2-id-msg-base-" + Date.now();
+        var idSelectMsgBase = "alt-select2-id-msg-base";
         var idSelectOpcaoCriarNovo;
         var idInputSelectPesquisa;
         var _criarNovoAppendado = false;
