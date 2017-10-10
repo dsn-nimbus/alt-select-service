@@ -130,7 +130,6 @@
           };
       };
 
-
       this.abrir = function(id, opt) {
         $timeout(function() {
           $(id).select2('open', opt);
@@ -141,6 +140,10 @@
         $timeout(function() {
           $(id).select2('close');
         }, TIMEOUT);
+      }
+
+      this.obterConteudoBusca = function(id) {
+        return $(id).data('select2').$dropdown.find("input").val();
       }
   }]);
 }(angular));
