@@ -130,6 +130,115 @@
           };
       };
 
+      /**
+       * @description Inicializa o select com opções de ações (criar, editar, limpar).
+       * @param optAcoes - object (obrigatório)
+       * @param optSelect2 - object (opcional)
+       */
+      this.inicializarComAcoes = function(idSelect, optAcoes, optSelect2) {
+        /*
+        optAcoes: {
+          criar: {
+            metodo: string
+          },
+          editar: {
+            metodo: string,
+            exibe: string
+          },
+          limpar: boolean
+        }
+        */
+
+        if (!ng.isObject(optAcoes)) {
+          throw new TypeError("O segundo parâmetro deve ser um objeto.");
+        }
+
+        if (!optAcoes.escopo) {
+          throw new TypeError("A propriedade escopo é obrigatória nas opções.");
+        }
+
+        var idSelectMsgBase = "alt-select2-id-msg-base";
+        var idInputSelectPesquisa;
+
+        var _msgBase = `
+        <div>
+          <span>Nenhum resultado encontrado...</span>
+          ${!!optAcoes.criar ? `
+            <a style="color: #6e3076;" class="alt-espacamento-left alt-select-botao-criacao-entidade" id="${idSelectMsgBase}"
+              ng-click="${optAcoes.criar.metodo}">
+              <i class="fa fa-plus-circle alt-hand" aria-hidden="true"></i>
+              <strong class='alt-select-botao-abrir-modal alt-hand'>Criar novo</strong>
+            </a>` : ''}
+        </div>`;
+
+        var _optExtendido = ng.extend(optSelect2, {
+          language: {
+            noResults: function(s) {
+              _naoTemResultadoSelect = true;
+              var el = $compile(angular.element(_msgBase))(optAcoes.escopo);
+              $(el).find("#" + idSelectMsgBase).on("click", function(){
+                $(idSelect).select2('close');
+              })
+
+              return el;
+            }
+          },
+          escapeMarkup: function(m) {return m;}
+        });
+
+        $timeout(function() {
+          $(idSelect).select2(_optExtendido);
+
+          $timeout(function() {
+            $(idSelect).next('.select2').addClass('alt-select2-with-actions');
+            $(idSelect).next('.select2').find('.selection .select2-selection .select2-selection__arrow').remove();
+            $(idSelect).next('.select2').find('.selection .select2-selection .alt-btn-select2-wrap-ations').remove();
+            $(idSelect).next('.select2').find('.selection .select2-selection').append('<div class="alt-select2-wrap-ations"></div>');
+
+            if (!!optAcoes.limpar) {
+              $(idSelect).next('.select2').find('.alt-select2-wrap-ations').append($compile(angular.element(`
+              <button class="btn btn-default alt-btn-select2 alt-btn-select2-2"
+              data-original-title="Limpar"
+              tabindex="-1"
+              onclick="$('${idSelect}').select2('close'); $('${idSelect}').select2('val', '');">
+              <i class="fa fa-ban"></i>
+              </button>`))(optAcoes.escopo));
+            }
+
+            if (!!optAcoes.criar) {
+              $(idSelect).next('.select2').find('.alt-select2-wrap-ations').append($compile(angular.element(`
+              <button class="btn btn-default alt-btn-select2"
+              data-original-title="Criar&nbsp;novo"
+              tabindex="-1"
+              ng-click="${optAcoes.criar.metodo}">
+              <i class="fa fa-plus"></i>
+              </button>`))(optAcoes.escopo));
+            }
+
+            if (!!optAcoes.editar) {
+              $(idSelect).next('.select2').find('.alt-select2-wrap-ations').append($compile(angular.element(`
+              <button class="btn btn-default alt-btn-select2 alt-btn-select2-2"
+              data-original-title="Editar"
+              tabindex="-1"
+              ng-click="${optAcoes.editar.metodo}"
+              ng-show="${optAcoes.editar.exibe}">
+              <i class="fa fa-pencil"></i>
+              </button>`))(optAcoes.escopo));
+            }
+
+            $(idSelect).next('.select2').find('.alt-select2-wrap-ations').append('<span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>');
+
+            $timeout(function() {
+              $('.alt-btn-select2').tooltip();
+            }, TIMEOUT);
+
+          }, TIMEOUT);
+        }, TIMEOUT);
+
+        $(idSelect).off("select2:open");
+        $("#" + idInputSelectPesquisa).off("input");
+      };
+
       this.abrir = function(id, opt) {
         $timeout(function() {
           $(id).select2('open', opt);

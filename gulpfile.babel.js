@@ -5,14 +5,18 @@ import concat from 'gulp-concat';
 import rename from 'gulp-rename';
 import {Server as Karma} from 'karma';
 import babel from 'gulp-babel';
+import cssmin from 'gulp-cssmin';
 
 const _coverage = 'coverage/**/lcov.info';
 const _scripts = 'src/**/*.js';
+const _styles = 'src/**/*.css';
 const _script = 'alt-select-service.js';
 const _style = 'alt-select-service.css';
 const _dist = 'dist';
 
-gulp.task('build', ['unit_test'], function () {
+gulp.task('build', ['build_js', 'build_css'])
+
+gulp.task('build_js', ['unit_test'], function () {
   return gulp.src(_scripts)
     .pipe(concat(_script.toLowerCase()))
     .pipe(gulp.dest(_dist))
@@ -23,6 +27,15 @@ gulp.task('build', ['unit_test'], function () {
              ]
            }))
     .pipe(uglify())
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest(_dist));
+})
+
+gulp.task('build_css', function () {
+  return gulp.src(_styles)
+    .pipe(concat(_style.toLowerCase()))
+    .pipe(gulp.dest(_dist))
+    .pipe(cssmin())
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(_dist));
 })
