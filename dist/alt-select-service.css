@@ -79,7 +79,6 @@ select.ng-invalid+.select2-container--default.select2-container--open .select2-s
 
 .alt-select2-wrap-ations {
   position: absolute;
-  width: 125px;
   right: 1px;
   top: 1px;
 }
@@ -96,7 +95,9 @@ select.ng-invalid+.select2-container--default.select2-container--open .select2-s
   color: #777;
 }
 
-.alt-select2-wrap-ations .alt-btn-select2:hover {
+.alt-select2-wrap-ations .alt-btn-select2:hover
+.alt-select2-wrap-ations .alt-btn-select2:active,
+.alt-select2-wrap-ations .alt-btn-select2:focus, {
   border-color: #ccc;
 }
 
@@ -104,4 +105,32 @@ select.ng-invalid+.select2-container--default.select2-container--open .select2-s
   position: relative !important;
   display: block;
   float: right;
+}
+
+.alt-select2-padding-1 {
+  padding-right: 42px !important;
+}
+
+.alt-select2-padding-2 {
+  padding-right: 77px !important;
+}
+
+.alt-select2-padding-3 {
+  padding-right: 112px !important;
+}
+
+.alt-select2-padding-1 .select2-selection__arrow {
+  right: 42px !important;
+}
+
+.alt-select2-padding-2 .select2-selection__arrow {
+  right: 77px !important;
+}
+
+.alt-select2-padding-3 .select2-selection__arrow {
+  right: 112px !important;
+}
+
+.alt-select2-wrap-ations .alt-btn-select2[disabled] {
+  cursor: auto;
 }

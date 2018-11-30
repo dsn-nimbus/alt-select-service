@@ -186,57 +186,62 @@
           escapeMarkup: function(m) {return m;}
         });
 
+        $(idSelect).select2(_optExtendido);
+
         $timeout(function() {
-          $(idSelect).select2(_optExtendido);
+          var elSelect2 = $(idSelect).next('.select2');
+          elSelect2.addClass('alt-select2-with-actions');
 
-          $timeout(function() {
-            $(idSelect).next('.select2').addClass('alt-select2-with-actions');
-            $(idSelect).next('.select2').find('.selection .select2-selection .select2-selection__arrow').remove();
-            $(idSelect).next('.select2').find('.selection .select2-selection .alt-btn-select2-wrap-ations').remove();
-            $(idSelect).next('.select2').find('.selection .select2-selection').append('<div class="alt-select2-wrap-ations"></div>');
+          if (elSelect2.find('.selection .alt-btn-select2-wrap-ations').length > 0) {
+            elSelect2.find('.selection .alt-btn-select2-wrap-ations button').remove();
+          }
+          else {
+            elSelect2.find('.selection .alt-btn-select2-wrap-ations').remove();
+            elSelect2.find('.selection').append('<div class="alt-select2-wrap-ations"></div>');
+          }
 
-            if (!!optAcoes.limpar) {
-              $(idSelect).next('.select2').find('.alt-select2-wrap-ations').append($compile(angular.element(`
-              <button class="btn btn-default alt-btn-select2 alt-btn-select2-2"
+          var acoes = 0;
+          if (!!optAcoes.limpar) {
+            acoes++;
+            elSelect2.find('.alt-select2-wrap-ations').append($compile(angular.element(`
+            <button type="button" class="btn btn-default alt-btn-select2"
               data-original-title="Limpar"
               tabindex="-1"
-              onclick="$('${idSelect}').select2('close'); $('${idSelect}').select2('val', '');">
+              onclick="$('${idSelect}').select2('val', '');">
               <i class="fa fa-ban"></i>
-              </button>`))(optAcoes.escopo));
-            }
+            </button>`))(optAcoes.escopo));
+          }
 
-            if (!!optAcoes.criar) {
-              $(idSelect).next('.select2').find('.alt-select2-wrap-ations').append($compile(angular.element(`
-              <button class="btn btn-default alt-btn-select2"
+          if (!!optAcoes.criar) {
+            acoes++;
+            elSelect2.find('.alt-select2-wrap-ations').append($compile(angular.element(`
+            <button type="button" class="btn btn-default alt-btn-select2"
               data-original-title="Criar&nbsp;novo"
               tabindex="-1"
               ng-click="${optAcoes.criar.metodo}">
               <i class="fa fa-plus"></i>
-              </button>`))(optAcoes.escopo));
-            }
+            </button>`))(optAcoes.escopo));
+          }
 
-            if (!!optAcoes.editar) {
-              $(idSelect).next('.select2').find('.alt-select2-wrap-ations').append($compile(angular.element(`
-              <button class="btn btn-default alt-btn-select2 alt-btn-select2-2"
+          if (!!optAcoes.editar) {
+            acoes++;
+            elSelect2.find('.alt-select2-wrap-ations').append($compile(angular.element(`
+            <button type="button" class="btn btn-default alt-btn-select2"
               data-original-title="Editar"
               tabindex="-1"
               ng-click="${optAcoes.editar.metodo}"
-              ng-show="${optAcoes.editar.exibe}">
+              ng-disabled="${optAcoes.editar.desabilitado}">
               <i class="fa fa-pencil"></i>
-              </button>`))(optAcoes.escopo));
-            }
+            </button>`))(optAcoes.escopo));
+          }
 
-            $(idSelect).next('.select2').find('.alt-select2-wrap-ations').append('<span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>');
+          elSelect2.find('.selection .select2-selection').addClass(`alt-select2-padding-${acoes}`);
 
-            $timeout(function() {
-              $('.alt-btn-select2').tooltip();
-            }, TIMEOUT);
-
+          $timeout(function() {
+            $(elSelect2.find('.alt-btn-select2')).tooltip();
           }, TIMEOUT);
-        }, TIMEOUT);
 
-        $(idSelect).off("select2:open");
-        $("#" + idInputSelectPesquisa).off("input");
+        }, TIMEOUT);
       };
 
       this.abrir = function(id, opt) {
