@@ -186,61 +186,63 @@
           escapeMarkup: function(m) {return m;}
         });
 
-        $(idSelect).select2(_optExtendido);
-
         $timeout(function() {
-          var elSelect2 = $(idSelect).next('.select2');
-          elSelect2.addClass('alt-select2-with-actions');
-
-          if (elSelect2.find('.selection .alt-btn-select2-wrap-ations').length > 0) {
-            elSelect2.find('.selection .alt-btn-select2-wrap-ations button').remove();
-          }
-          else {
-            elSelect2.find('.selection .alt-btn-select2-wrap-ations').remove();
-            elSelect2.find('.selection').append('<div class="alt-select2-wrap-ations"></div>');
-          }
-
-          var acoes = 0;
-          if (!!optAcoes.limpar) {
-            acoes++;
-            elSelect2.find('.alt-select2-wrap-ations').append($compile(angular.element(`
-            <button type="button" class="btn btn-default alt-btn-select2"
-              data-original-title="Limpar"
-              tabindex="-1"
-              onclick="$('${idSelect}').select2('val', '');">
-              <i class="fa fa-ban"></i>
-            </button>`))(optAcoes.escopo));
-          }
-
-          if (!!optAcoes.criar) {
-            acoes++;
-            elSelect2.find('.alt-select2-wrap-ations').append($compile(angular.element(`
-            <button type="button" class="btn btn-default alt-btn-select2"
-              data-original-title="Criar&nbsp;novo"
-              tabindex="-1"
-              ng-click="${optAcoes.criar.metodo}">
-              <i class="fa fa-plus"></i>
-            </button>`))(optAcoes.escopo));
-          }
-
-          if (!!optAcoes.editar) {
-            acoes++;
-            elSelect2.find('.alt-select2-wrap-ations').append($compile(angular.element(`
-            <button type="button" class="btn btn-default alt-btn-select2"
-              data-original-title="Editar"
-              tabindex="-1"
-              ng-click="${optAcoes.editar.metodo}"
-              ng-disabled="${optAcoes.editar.desabilitado}">
-              <i class="fa fa-pencil"></i>
-            </button>`))(optAcoes.escopo));
-          }
-
-          elSelect2.find('.selection .select2-selection').addClass(`alt-select2-padding-${acoes}`);
+          $(idSelect).select2(_optExtendido);
 
           $timeout(function() {
-            $(elSelect2.find('.alt-btn-select2')).tooltip();
-          }, TIMEOUT);
+            var elSelect2 = $(idSelect).next('.select2');
+            elSelect2.addClass('alt-select2-with-actions');
 
+            if (elSelect2.find('.selection .alt-btn-select2-wrap-ations').length > 0) {
+              elSelect2.find('.selection .alt-btn-select2-wrap-ations button').remove();
+            }
+            else {
+              elSelect2.find('.selection .alt-btn-select2-wrap-ations').remove();
+              elSelect2.find('.selection').append('<div class="alt-select2-wrap-ations"></div>');
+            }
+
+            var acoes = 0;
+            if (!!optAcoes.limpar) {
+              acoes++;
+              elSelect2.find('.alt-select2-wrap-ations').append($compile(angular.element(`
+              <button type="button" class="btn btn-default alt-btn-select2"
+                data-original-title="Limpar"
+                tabindex="-1"
+                onclick="$('${idSelect}').select2('val', '');">
+                <i class="fa fa-ban"></i>
+              </button>`))(optAcoes.escopo));
+            }
+
+            if (!!optAcoes.criar) {
+              acoes++;
+              elSelect2.find('.alt-select2-wrap-ations').append($compile(angular.element(`
+              <button type="button" class="btn btn-default alt-btn-select2"
+                data-original-title="Criar&nbsp;novo"
+                tabindex="-1"
+                ng-click="${optAcoes.criar.metodo}">
+                <i class="fa fa-plus"></i>
+              </button>`))(optAcoes.escopo));
+            }
+
+            if (!!optAcoes.editar) {
+              acoes++;
+              elSelect2.find('.alt-select2-wrap-ations').append($compile(angular.element(`
+              <button type="button" class="btn btn-default alt-btn-select2"
+                data-original-title="Editar"
+                tabindex="-1"
+                ng-click="${optAcoes.editar.metodo}"
+                ng-disabled="${optAcoes.editar.desabilitado}">
+                <i class="fa fa-pencil"></i>
+              </button>`))(optAcoes.escopo));
+            }
+
+            elSelect2.find('.selection .select2-selection').addClass(`alt-select2-padding-${acoes}`);
+
+            $timeout(function() {
+              $(elSelect2.find('.alt-btn-select2')).tooltip();
+            }, TIMEOUT);
+
+          }, TIMEOUT);
         }, TIMEOUT);
       };
 
