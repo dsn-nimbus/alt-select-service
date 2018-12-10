@@ -219,7 +219,8 @@
               <button type="button" class="btn btn-default alt-btn-select2"
                 data-original-title="Criar&nbsp;novo"
                 tabindex="-1"
-                ng-click="${optAcoes.criar.metodo}">
+                ng-click="${optAcoes.criar.metodo}"
+                ng-disabled="${optAcoes.criar.desabilitado}">
                 <i class="fa fa-plus"></i>
               </button>`))(optAcoes.escopo));
             }
