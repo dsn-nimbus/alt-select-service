@@ -158,4 +158,8 @@ describe('Service: AltSelectService', function () {
       expect($('a').select2).toHaveBeenCalledWith('close');
     })
   })
+
+  describe('inicializarComAcoes', function() {
+    
+  })
 });
