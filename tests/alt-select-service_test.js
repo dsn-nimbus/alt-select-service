@@ -171,5 +171,17 @@ describe('Service: AltSelectService', function () {
         AltSelectService.inicializarComAcoes(_id, _acoes, _opcoes);
       }).toThrow(TypeError("O segundo parâmetro deve ser um objeto."));
     })
+
+    it('Deve trazer mensagem de erro quando o terceiro parâmetro da função não é um objeto.', function() {
+      var _id = 1;
+      var _acoes = {a: true};
+      var _opcoes = {a: true};
+
+      spyOn($.fn, 'select2').and.callFake(angular.noop);
+
+      expect(function(){
+        AltSelectService.inicializarComAcoes(_id, _acoes, _opcoes);
+      }).toThrow(TypeError("A propriedade escopo é obrigatória nas opções."));
+    })
   })
 });
