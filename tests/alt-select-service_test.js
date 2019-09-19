@@ -183,5 +183,19 @@ describe('Service: AltSelectService', function () {
         AltSelectService.inicializarComAcoes(_id, _acoes, _opcoes);
       }).toThrow(TypeError("A propriedade escopo é obrigatória nas opções."));
     })
+
+    it('deve chamar o inicializarComAcoes corretamente - chamando o que é passado por parâmetro', function() {
+      var _id = 1;
+      var _acoes = {escopo: 'escopo'};
+      var _opcoes = {a: true};
+
+      spyOn($.fn, 'select2').and.callFake(angular.noop);
+
+      AltSelectService.inicializarComAcoes(_id, _acoes, _opcoes);
+
+      _timeoutMock.flush(TEMPO);
+
+      expect($('a').select2).toHaveBeenCalledWith(_opcoes);
+    })
   })
 });
