@@ -160,6 +160,16 @@ describe('Service: AltSelectService', function () {
   })
 
   describe('inicializarComAcoes', function() {
-    
+    it('Deve trazer mensagem de erro quando o segundo parâmetro da função não é um objeto.', function() {
+      var _id = 1;
+      var _acoes = undefined;
+      var _opcoes = {a: true};
+
+      spyOn($.fn, 'select2').and.callFake(angular.noop);
+
+      expect(function(){
+        AltSelectService.inicializarComAcoes(_id, _acoes, _opcoes);
+      }).toThrow(TypeError("O segundo parâmetro deve ser um objeto."));
+    })
   })
 });
