@@ -204,14 +204,14 @@
             var acoes = 0;
             if (!!optAcoes.limpar) {
               var elemento = elSelect2.find('.alt-select2-wrap-ations');
-              if(!elemento.find('.fa-ban').length) {
+              if(!elemento.find('.fa-eraser').length) {
                 acoes++;
                 elSelect2.find('.alt-select2-wrap-ations').append($compile(angular.element(`
                 <button type="button" class="btn btn-default alt-btn-select2"
                   data-original-title="Limpar"
                   tabindex="-1"
                   onclick="$('${idSelect}').select2('val', '');">
-                  <i class="fa fa-ban"></i>
+                  <i class="fa fa-eraser"></i>
                 </button>`))(optAcoes.escopo));
               }
             }
