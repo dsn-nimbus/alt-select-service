@@ -207,10 +207,11 @@
               if(!elemento.find('.fa-eraser').length) {
                 acoes++;
                 elSelect2.find('.alt-select2-wrap-ations').append($compile(angular.element(`
+
                 <button type="button" class="btn btn-default alt-btn-select2"
                   data-original-title="Limpar"
                   tabindex="-1"
-                  onclick="$('${idSelect}').select2('val', '');">
+                  onclick="$('${idSelect}').select2('val', '');$('.tooltip').css('display', 'none');">
                   <i class="fa fa-eraser"></i>
                 </button>`))(optAcoes.escopo));
               }
