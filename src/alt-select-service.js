@@ -211,7 +211,7 @@
                   data-original-title="Limpar"
                   tabindex="-1"
                   onclick="$('${idSelect}').select2('val', '');">
-                  <i class="fa fa-eraser"></i>
+                  <i class="fa fa-eraser" onclick="$('.tooltip').css('display', 'none')"></i>
                 </button>`))(optAcoes.escopo));
               }
             }
