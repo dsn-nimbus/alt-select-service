@@ -84,7 +84,8 @@ describe('Service: AltSelectService', function () {
       var _esperado = {
           attr: "attr",
           language: {
-            noResults: jasmine.any(Function)
+            noResults: jasmine.any(Function),
+            loadingMore: jasmine.any(Function)
           },
           escapeMarkup: jasmine.any(Function)
         }
@@ -105,7 +106,8 @@ describe('Service: AltSelectService', function () {
       var _optSelect2 = {};
       var _esperado = {
             language: {
-              noResults: jasmine.any(Function)
+              noResults: jasmine.any(Function),
+              loadingMore: jasmine.any(Function)
             },
             escapeMarkup: jasmine.any(Function)
           }

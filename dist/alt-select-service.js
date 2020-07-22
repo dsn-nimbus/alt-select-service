@@ -68,6 +68,9 @@
               })
 
               return el;
+            },
+            loadingMore: function () {
+              return 'Carregando mais resultados…';
             }
           },
           escapeMarkup: function(m) {return m;}
@@ -159,6 +162,7 @@
 
         var idSelectMsgBase = "alt-select2-id-msg-base";
         var idInputSelectPesquisa;
+        var _naoTemResultadoSelect = false;
 
         var _msgBase = `
         <div>
@@ -181,6 +185,9 @@
               })
 
               return el;
+            },
+            loadingMore: function () {
+              return 'Carregando mais resultados…';
             }
           },
           escapeMarkup: function(m) {return m;}
