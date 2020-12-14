@@ -217,7 +217,7 @@
                 <button type="button" class="btn btn-default alt-btn-select2"
                   data-original-title="Limpar"
                   tabindex="-1"
-                  onclick="$('${idSelect}').select2('val', '');$('.tooltip').css('display', 'none');">
+                  onclick="$('${idSelect}').select2('val', '');$('.tooltip').css('display', 'none');"
                   ng-click="${optAcoes.limpar.metodo}"
                   ng-disabled="${optAcoes.limpar.desabilitado}">
                   <i class="fa fa-eraser"></i>
