@@ -171,7 +171,7 @@
             <a style="color: #6e3076;" class="alt-espacamento-left alt-select-botao-criacao-entidade" id="${idSelectMsgBase}"
               ng-click="${optAcoes.criar.metodo}">
               <i class="fa fa-plus-circle alt-hand" aria-hidden="true"></i>
-              <strong class='alt-select-botao-abrir-modal alt-hand'>Criar novo</strong>
+              <strong class='alt-select-botao-abrir-modal alt-hand'>Criar Novo</strong>
             </a>` : ''}
         </div>`;
 
@@ -214,11 +214,12 @@
               if(!elemento.find('.fa-eraser').length) {
                 acoes++;
                 elSelect2.find('.alt-select2-wrap-ations').append($compile(angular.element(`
-
                 <button type="button" class="btn btn-default alt-btn-select2"
                   data-original-title="Limpar"
                   tabindex="-1"
                   onclick="$('${idSelect}').select2('val', '');$('.tooltip').css('display', 'none');">
+                  ng-click="${optAcoes.limpar.metodo}"
+                  ng-disabled="${optAcoes.limpar.desabilitado}">
                   <i class="fa fa-eraser"></i>
                 </button>`))(optAcoes.escopo));
               }
@@ -230,7 +231,7 @@
                 acoes++;
                 elSelect2.find('.alt-select2-wrap-ations').append($compile(angular.element(`
                 <button type="button" class="btn btn-default alt-btn-select2"
-                  data-original-title="Criar&nbsp;novo"
+                  data-original-title="Criar&nbsp;Novo"
                   tabindex="-1"
                   ng-click="${optAcoes.criar.metodo}"
                   ng-disabled="${optAcoes.criar.desabilitado}">
